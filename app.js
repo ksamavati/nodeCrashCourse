@@ -1,33 +1,33 @@
 const express = require('express');
 
-//express app
+// express app
 const app = express();
 
-// register view engine
-app.set('view engine', 'ejs'); // by default, pulls pages from the ./views folder 
-// app.set('views', 'myviews'); // if you want to serve pages from a different folder ./myviews, do this
-
-//listen for requests
+// listen for requests
 app.listen(3000);
 
-//serve homepage
+// register view engine
+app.set('view engine', 'ejs');
+// app.set('views', 'myviews');
+
 app.get('/', (req, res) => {
-    res.sendFile('./views/index.html', { root: __dirname });
+  const blogs = [
+    {title: 'Yoshi finds eggs', snippet: 'Lorem ipsum dolor sit amet consectetur'},
+    {title: 'Mario finds stars', snippet: 'Lorem ipsum dolor sit amet consectetur'},
+    {title: 'How to defeat bowser', snippet: 'Lorem ipsum dolor sit amet consectetur'},
+  ];
+  res.render('index', { title: 'Home', blogs });
 });
 
-//serve about page
 app.get('/about', (req, res) => {
-    res.sendFile('./views/about.html', { root: __dirname });
+  res.render('about', { title: 'About' });
 });
 
-//redirect about-us to about
-app.get('/about-us', (req, res) => {
-    res.redirect('/about');
+app.get('/blogs/create', (req, res) => {
+  res.render('create', { title: 'Create a new blog' });
 });
 
-//404 page
-//.use does the same thing as .get but responds to request regardless of URL
-//requests run through code from top to bottom so this .use will only get hit if the request doesn't trigger any of the other .gets.
+// 404 page
 app.use((req, res) => {
-    res.status(404).sendFile('./views/404.html', { root: __dirname });
+  res.status(404).render('404', { title: '404' });
 });
