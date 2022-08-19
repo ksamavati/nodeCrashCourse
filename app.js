@@ -3,6 +3,10 @@ const express = require('express');
 //express app
 const app = express();
 
+// register view engine
+app.set('view engine', 'ejs'); // by default, pulls pages from the ./views folder 
+// app.set('views', 'myviews'); // if you want to serve pages from a different folder ./myviews, do this
+
 //listen for requests
 app.listen(3000);
 
